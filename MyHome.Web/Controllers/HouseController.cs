@@ -108,5 +108,51 @@ namespace MyHome.Web.Controllers
 
         }
 
+        /// <summary>
+        /// Action de mise à jour de la maison
+        /// </summary>
+        /// <param name="id">Identifiant de la maison à mettre à jour</param>
+        /// <param name="vm">Objet à jour</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Edit(int id, EditHouseViewModel vm)
+        {
+            if (id == vm.Id)
+            {
+                var existingHouseByName = dbContext.Set<House>()
+                    .Where(x => x.Name == vm.Name)
+                    .SingleOrDefault();
+
+                if (existingHouseByName == null)
+                {
+                    // Requêtage de l'entité à mettre à jour
+                    var houseToUpdate = dbContext
+                        .Set<House>()
+                        .Where(x => x.Id == id)
+                        .SingleOrDefault();
+
+                    // Recopie des valeurs 
+                    houseToUpdate.Name = vm.Name;
+                    
+                    // Mise à jour > UPDATE
+                    dbContext.SaveChanges();
+
+                    // Affichage du message de succès
+                    ViewBag.Success = "Maison mise à jour avec succès";
+                }
+                else
+                {
+                    // Affichage du message d'erreur
+                    ViewBag.Error = "Ce nom de maison existe déjà";
+                }
+
+
+            }
+            else
+                ViewBag.Error = "Incohérence entre Ids";
+
+            return View(vm);
+        }
+
     }
 }
