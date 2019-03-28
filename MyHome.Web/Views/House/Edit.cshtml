@@ -3,13 +3,21 @@
     ViewData["Title"] = "Edit";
 }
 
-@model  MyHome.Web.Models.House.EditHouseViewModel
+@model MyHome.Web.Models.House.EditHouseViewModel
 
-<h2>Edit</h2>
-
-@if(Model.Id > 0)
+@if (Model.Id > 0)
 {
     <!-- Affichage du formulaire d'édition, à vous de jouer -->
+    <form asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input type="text" asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
+        <input type="submit" value="Sauvegarder" />
+    </form>
 
 }
