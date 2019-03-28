@@ -84,8 +84,27 @@ namespace MyHome.Web.Controllers
         /// <returns></returns>
         public IActionResult Edit(int id)
         {
+            // Requêter en BDD la maison depuis son Id
+            var existingHouse = dbContext
+                .Set<House>()
+                .Where(x => x.Id == id)
+                .SingleOrDefault();
+
+            var vm = new EditHouseViewModel();
+            if(existingHouse == null)
+            {
+                // Stocker un message d'erreur
+                ViewBag.Error = $"Aucune maison n'existe pour l'id {id}";
+            }
+            else
+            {
+                // Initialiser le viewmodel
+                vm.Id = existingHouse.Id;
+                vm.Name = existingHouse.Name;
+            }
+            
             // TODO ... Have fun!
-            return View();
+            return View(vm);
 
         }
 
