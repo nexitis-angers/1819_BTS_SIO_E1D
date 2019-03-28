@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model MyHome.Web.Models.House.ListHousesViewModel
+
+<h2>Liste des maisons</h2>
+
+<!-- Générer un lien hypertexte vers l'uri /House/Create -->
+<a asp-controller="House" asp-action="Create">Nouvelle maison</a>
+
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Houses)
+        {
+            <tr>
+               <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>
+                    <a href="/House/Edit/@item.Id" class="btn btn-sm btn-primary">
+                        &Eacute;diter
+                    </a>
+                    <a href="/House/Delete/@item.Id" class="btn btn-sm btn-danger">
+                        Supprimer
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
