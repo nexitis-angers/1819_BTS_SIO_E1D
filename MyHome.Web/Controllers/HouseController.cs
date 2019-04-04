@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyHome.Domain;
 using MyHome.Infrastructure;
@@ -9,6 +10,7 @@ using MyHome.Web.Models.House;
 
 namespace MyHome.Web.Controllers
 {
+    [Authorize]
     public class HouseController : Controller
     {
         #region Private attributes

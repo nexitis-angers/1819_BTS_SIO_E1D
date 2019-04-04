@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,7 +44,12 @@ namespace MyHome.Web
                 options => options.UseSqlServer(connectionString,
                     builder => builder.MigrationsAssembly(webHostAssembly)));
             #endregion
-            
+
+            #region Configuration de la gestion des sessions et de l'authentification
+            // On indique ici que l'authentification sera gérée par un cookie
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            #endregion
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -61,6 +67,7 @@ namespace MyHome.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication(); // Activation de l'authenfication
 
             app.UseMvc(routes =>
             {

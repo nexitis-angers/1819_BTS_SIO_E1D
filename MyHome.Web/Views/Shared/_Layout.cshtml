@@ -33,8 +33,18 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Register" asp-action="Index" >Inscription</a></li>
-                    <li><a asp-area="" asp-controller="House" asp-action="Index">Mes maisons</a></li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="House" asp-action="Index">Mes maisons</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Déconnexion</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Register" asp-action="Index">Inscription</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Connexion</a></li>
+                    }
+
                 </ul>
             </div>
         </div>
@@ -55,6 +65,12 @@
             <div class="alert alert-danger alert-dismissable">
                 <p>@ViewBag.Error</p>
             </div>
+        }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            // Affichage du prénom de l'utilisateur
+            <p>Bonjour @User.Identity.Name</p>
         }
 
         @RenderBody()
